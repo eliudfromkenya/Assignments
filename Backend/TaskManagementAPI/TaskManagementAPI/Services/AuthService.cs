@@ -1,7 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Crypto.Generators;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaskManagement.Common.ContractDTOs;
+using TaskManagement.Common.ContractModels;
+using TaskManagement.Common.Services;
+using TaskManagement.Common.Utilities;
+using TaskManagementAPI.Models;
+using RegisterRequest = TaskManagement.Common.Utilities.RegisterRequest;
+
+namespace TaskManagementAPI.Services;
 
 public class AuthService : IAuthService
 {
@@ -14,16 +26,19 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<User> Register(RegisterRequest request)
+    public async Task<IUser> Register(RegisterRequest request)
     {
         if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             throw new Exception("Email already exists");
+
+        var (hash, salt) = PasswordHelper.HashPassword(request.Password);
 
         var user = new User
         {
             Username = request.Username,
             Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+            PasswordHash = hash,
+            PasswordSalt = salt,
             Role = request.Email == "admin@example.com" ? "ADMIN" : "USER"
         };
 
@@ -32,13 +47,13 @@ public class AuthService : IAuthService
         return user;
     }
 
-    public async Task<string> Login(LoginRequest request)
+    public async Task<string> Login(TaskManagement.Common.Utilities.LoginRequest request)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        if (user == null || !PasswordHelper.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
             throw new Exception("Invalid credentials");
 
-        var token = GenerateJwtToken(user);
+        var token = GenerateJwtToken((User)user);
         return token;
     }
 
@@ -52,9 +67,9 @@ public class AuthService : IAuthService
             audience: _configuration["Jwt:Audience"],
             claims: new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role)
             },
             expires: DateTime.Now.AddHours(1),
             signingCredentials: creds);

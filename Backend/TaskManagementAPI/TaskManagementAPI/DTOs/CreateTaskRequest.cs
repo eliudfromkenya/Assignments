@@ -1,18 +1,16 @@
-﻿namespace backend.Models.DTOs.Task;
+﻿using TaskManagement.Common.ContractDTOs;
+namespace TaskManagementAPI.DTOs;
 
-public record CreateTaskRequest(
+public readonly record struct CreateTaskRequest(
     string Title,
     string? Description,
     string Priority,
     int? AssigneeId,
     int CreatorId
-) : ICreateTaskRequest;
-
-// UpdateTaskRequest.cs
-public record UpdateTaskRequest(
-    string? Title,
-    string? Description,
-    string? Status,
-    string? Priority,
-    int? AssigneeId
-) : IUpdateTaskRequest;
+) : ICreateTaskRequest
+{
+    public bool Equals(ICreateTaskRequest? other)
+    {
+        throw new NotImplementedException();
+    }
+}

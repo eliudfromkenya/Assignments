@@ -1,6 +1,7 @@
-﻿using backend.Models.DTOs.Task;
-using backend.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TaskManagement.Common.Services;
+using TaskManagementAPI.DTOs;
 
 namespace backend.Endpoints;
 
@@ -35,7 +36,7 @@ public static class TaskEndpoints
             HttpContext httpContext) =>
         {
             var userId = int.Parse(httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
-            var task = await taskService.CreateTask(request with { CreatorId = int.Parse(userId) });
+            var task = await taskService.CreateTask(request with { CreatorId = userId });
             return Results.Created($"/api/tasks/{task.Id}", task);
         });
 

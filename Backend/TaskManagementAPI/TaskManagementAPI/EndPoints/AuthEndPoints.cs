@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
-
-using backend.Models.DTOs.Auth;
-using backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagement.Common.ContractDTOs;
+using TaskManagement.Common.Services;
 
 public static class AuthEndpoints
 {
@@ -11,7 +10,7 @@ public static class AuthEndpoints
         var group = app.MapGroup("/api/auth").WithTags("Authentication");
 
         group.MapPost("/register", async (
-            [FromBody] RegisterRequest request,
+            [FromBody] TaskManagement.Common.Utilities.RegisterRequest request,
             [FromServices] IAuthService authService) =>
         {
             try
@@ -26,7 +25,7 @@ public static class AuthEndpoints
         });
 
         group.MapPost("/login", async (
-            [FromBody] LoginRequest request,
+            [FromBody] TaskManagement.Common.Utilities.LoginRequest request,
             [FromServices] IAuthService authService) =>
         {
             try

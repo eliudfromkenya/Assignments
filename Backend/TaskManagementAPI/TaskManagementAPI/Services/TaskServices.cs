@@ -1,8 +1,11 @@
-﻿using backend.Data;
-using backend.Models;
-using backend.Models.DTOs.Task;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Data.Entity;
+using TaskManagement.Common.ContractDTOs;
+using TaskManagement.Common.ContractModels;
+using TaskManagement.Common.Services;
+using TaskManagementAPI.Models;
+using TaskManagementAPI.Services;
+using Task = TaskManagementAPI.Models.Task;
 
 namespace backend.Services;
 
@@ -15,7 +18,7 @@ public class TaskService : ITaskService
         _context = context;
     }
 
-    public async Task<IEnumerable<Task>> GetTasks(string? status, int? assigneeId)
+    public async Task<IEnumerable<ITask>> GetTasks(string? status, int? assigneeId)
     {
         var query = _context.Tasks
             .Include(t => t.Assignee)
@@ -31,19 +34,19 @@ public class TaskService : ITaskService
         {
             query = query.Where(t => t.AssigneeId == assigneeId);
         }
-
-        return await query.ToListAsync();
+        var ans = await query.ToListAsync(); 
+        return ans.Select(c => (TaskManagementAPI.Models.Task)c);
     }
 
-    public async Task<Task> GetTaskById(int id)
+    public async Task<ITask> GetTaskById(int id)
     {
-        return await _context.Tasks
+        return (Task) await _context.Tasks
             .Include(t => t.Assignee)
             .Include(t => t.Creator)
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    public async Task<Task> CreateTask(CreateTaskRequest request)
+    public async Task<ITask> CreateTask(ICreateTaskRequest request)
     {
         var task = new Task
         {
@@ -62,7 +65,7 @@ public class TaskService : ITaskService
         return await GetTaskById(task.Id);
     }
 
-    public async Task<Task> UpdateTask(int id, UpdateTaskRequest request)
+    public async Task<ITask> UpdateTask(int id, IUpdateTaskRequest request)
     {
         var task = await _context.Tasks.FindAsync(id);
         if (task == null) throw new Exception("Task not found");
@@ -88,8 +91,9 @@ public class TaskService : ITaskService
         return true;
     }
 
-    public async Task<IEnumerable<User>> GetUsers()
+    public async Task<IEnumerable<IUser>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        var ans =  await _context.Users.ToListAsync();
+        return ans.Select(u => (User)u);
     }
 }
