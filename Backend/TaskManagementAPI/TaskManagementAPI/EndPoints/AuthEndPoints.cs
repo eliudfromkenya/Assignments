@@ -3,40 +3,43 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Common.ContractDTOs;
 using TaskManagement.Common.Services;
 
-public static class AuthEndpoints
+namespace TaskManagementAPI.EndPoints
 {
-    public static void MapAuthEndpoints(this WebApplication app)
+    public static class AuthEndpoints
     {
-        var group = app.MapGroup("/api/auth").WithTags("Authentication");
-
-        group.MapPost("/register", async (
-            [FromBody] TaskManagement.Common.Utilities.RegisterRequest request,
-            [FromServices] IAuthService authService) =>
+        public static void MapAuthEndpoints(this WebApplication app)
         {
-            try
-            {
-                var user = await authService.Register(request);
-                return Results.Ok(new { user.Id, user.Email, user.Username, user.Role });
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(new { message = ex.Message });
-            }
-        });
+            var group = app.MapGroup("/api/auth").WithTags("Authentication");
 
-        group.MapPost("/login", async (
-            [FromBody] TaskManagement.Common.Utilities.LoginRequest request,
-            [FromServices] IAuthService authService) =>
-        {
-            try
+            group.MapPost("/register", async (
+                [FromBody] TaskManagement.Common.Utilities.RegisterRequest request,
+                [FromServices] IAuthService authService) =>
             {
-                var token = await authService.Login(request);
-                return Results.Ok(new { token });
-            }
-            catch (Exception ex)
+                try
+                {
+                    var user = await authService.Register(request);
+                    return Results.Ok(new { user.Id, user.Email, user.Username, user.Role });
+                }
+                catch (Exception ex)
+                {
+                    return Results.BadRequest(new { message = ex.Message });
+                }
+            });
+
+            group.MapPost("/login", async (
+                [FromBody] TaskManagement.Common.Utilities.LoginRequest request,
+                [FromServices] IAuthService authService) =>
             {
-                return Results.Unauthorized();
-            }
-        });
+                try
+                {
+                    var token = await authService.Login(request);
+                    return Results.Ok(new { token });
+                }
+                catch (Exception ex)
+                {
+                    return Results.Unauthorized();
+                }
+            });
+        }
     }
 }

@@ -8,6 +8,7 @@ using TaskManagement.Common.Services;
 using TaskManagementAPI.Services;
 using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.EntityFrameworkCore;
+using TaskManagementAPI.EndPoints;
 
 
 var builder = WebApplication.CreateBuilder(args);
