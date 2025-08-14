@@ -6,44 +6,60 @@ const Home = () => {
     const { user } = useAuth();
 
     return (
-        <div className="py-12 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="lg:text-center">
-                    <h2 className="text-base text-primary-600 font-semibold tracking-wide uppercase">Task Management System</h2>
-                    <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        Organize your work efficiently
-                    </p>
-                    <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        A modern task management solution that helps you stay organized and productive.
-                    </p>
-                </div>
-              
-
-                <div className="mt-16 text-center">
+        <div className="relative isolate px-6 pt-14 lg:px-8 min-h-[calc(100vh-4rem-6rem)] flex items-center justify-center"> {/* Adjusted min-height for footer and navbar */}
+            <div
+                className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                aria-hidden="true"
+            >
+                <div
+                    className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-light to-secondary-light opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                    style={{
+                        clipPath:
+                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                    }}
+                />
+            </div>
+            <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:py-32 text-center bg-white bg-opacity-90 rounded-xl shadow-2xl p-8 sm:p-12 border border-greenish-100">
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                    Organize your work, simplify your life.
+                </h1>
+                <p className="mt-6 text-lg leading-8 text-gray-600">
+                    Task Interview Assignment helps you manage your tasks efficiently, collaborate with your team, and achieve your goals with ease.
+                </p>
+                <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-4">
                     {user ? (
                         <Link
                             to="/dashboard"
-                            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700"
+                            className="rounded-md bg-primary-600 px-6 py-3 text-lg font-semibold text-white shadow-lg hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all duration-300 ease-in-out transform hover:scale-105"
                         >
                             Go to Dashboard
                         </Link>
                     ) : (
-                        <div className="flex justify-center space-x-4">
+                        <>
                             <Link
                                 to="/register"
-                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700"
+                                className="rounded-md bg-primary-600 px-6 py-3 text-lg font-semibold text-white shadow-lg hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all duration-300 ease-in-out transform hover:scale-105"
                             >
                                 Get Started
                             </Link>
-                            <Link
-                                to="/login"
-                                className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                            >
-                                Login
+                            <Link to="/login" className="text-lg font-semibold leading-6 text-gray-900 hover:text-primary-600 transition-colors duration-300 ease-in-out">
+                                Login <span aria-hidden="true">→</span>
                             </Link>
-                        </div>
+                        </>
                     )}
                 </div>
+            </div>
+            <div
+                className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                aria-hidden="true"
+            >
+                <div
+                    className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-primary-light to-secondary-light opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                    style={{
+                        clipPath:
+                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                    }}
+                />
             </div>
         </div>
     );
