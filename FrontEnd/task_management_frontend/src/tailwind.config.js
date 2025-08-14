@@ -2,6 +2,7 @@
 module.exports = {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
+        "./public/index.html",
     ],
     theme: {
         extend: {
@@ -16,8 +17,13 @@ module.exports = {
                     light: '#6EE7B7',
                     dark: '#047857'
                 }
+            }, screens: {
+                'xs': '480px',
+                '3xl': '1920px',
             },
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 }
