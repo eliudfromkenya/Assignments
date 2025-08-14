@@ -1,17 +1,20 @@
 using backend.Endpoints;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using TaskManagement.Common;
 using TaskManagement.Common.Services;
-using TaskManagementAPI.Services;
-using Microsoft.EntityFrameworkCore.InMemory;
-using Microsoft.EntityFrameworkCore;
 using TaskManagementAPI.EndPoints;
+using TaskManagementAPI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 // Add services to the container.
 
