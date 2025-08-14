@@ -4,15 +4,15 @@ export type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH';
 
 export interface Task {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  status: TaskStatus;
+  status?: TaskStatus;
   priority: TaskPriority;
   assigneeId?: number;
-  creatorId: number;
+  creatorId?: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
   assignee?: User;
-  creator: User;
+  creator?: User;
 }

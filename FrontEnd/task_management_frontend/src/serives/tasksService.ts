@@ -36,8 +36,8 @@ export const createTask = async (taskData: Omit<Task, 'id' | 'createdAt' | 'upda
 };
 
 export const updateTask = async (taskData: Task): Promise<Task> => {
-  const response = await fetch(`${API_URL}/tasks`, {
-    method: 'POST',
+  const response = await fetch(`${API_URL}/tasks/${taskData.id}`, { // Changed to use task ID in URL
+    method: 'PUT', // Changed method to PUT for updates
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -47,10 +47,24 @@ export const updateTask = async (taskData: Task): Promise<Task> => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Failed to create task');
+    throw new Error(error.message || 'Failed to update task');
   }
 
   return response.json();
+};
+
+export const deleteTask = async (taskId: number| undefined): Promise<void> => {
+  const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to delete task');
+  }
 };
 
 

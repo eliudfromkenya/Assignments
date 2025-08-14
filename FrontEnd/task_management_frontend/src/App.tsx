@@ -7,6 +7,8 @@ import Login from './components/Login';
 import Register from './components/RegisterComponent';
 import ProtectedRoute from './layout';
 import TaskMainPage from './components/TaskMainPage';
+import UserManagementPage from './components/UserManagementPage'; // Import UserManagementPage
+import NotFound from './NotFound';
 
 // Component to handle scroll restoration
 const ScrollToTop = () => {
@@ -23,7 +25,7 @@ const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <div className="min-h-screen bg-greenish-50 flex flex-col">
           <Navbar />
 
           <main className="flex-grow container mx-auto px-4 py-6">
@@ -40,8 +42,16 @@ const App = () => {
                   <TaskMainPage />
                 </ProtectedRoute>
               } />
+              <Route path="/admin/users" element={
+                <ProtectedRoute requiredRole="ADMIN">
+                  <UserManagementPage />
+                </ProtectedRoute>
+              } />
 
-              {/* Redirect to dashboard for authenticated users, home for others */}
+              {/* 404 Not Found route */}
+              <Route path="/404" element={<NotFound />} />
+
+              {/* Redirect to dashboard for authenticated users, home for others, or 404 for unknown paths */}
               <Route path="*" element={
                 <ProtectedRoute>
                   <Navigate to="/dashboard" replace />
@@ -50,7 +60,7 @@ const App = () => {
             </Routes>
           </main>
 
-          <footer className="bg-white border-t border-gray-200 py-6">
+          <footer className="bg-white border-t border-greenish-100 py-6">
             <div className="container mx-auto px-4 text-center text-gray-500">
               <p>© {new Date().getFullYear()} Task Management System. All rights reserved.</p>
             </div>

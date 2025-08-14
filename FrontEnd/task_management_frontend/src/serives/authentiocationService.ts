@@ -16,11 +16,15 @@ export const login = async (email: string, password: string): Promise<AuthRespon
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) {
+    if(response.status === 401) 
+        throw new Error('Invalid email or password');
+    else if (!response.ok) {
+        console.log(response);
         const error = await response.json();
         throw new Error(error.message || 'Login failed');
     }
@@ -39,6 +43,7 @@ export const register = async (userData: RegisterFormData): Promise<void> => {
 
     if (!response.ok) {
         const error = await response.json();
+        console.log(error);
         throw new Error(error.message || 'Registration failed');
     }
 };

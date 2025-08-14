@@ -4,6 +4,7 @@ import { AuthContextType } from './types/AuthContextType';
 import { User } from './types/User';
 import { RegisterFormData } from './types/RegistrationFormData';
 import { login, register } from './serives/authentiocationService';
+import { showSuccessToast, showErrorToast, showLoadingToast, dismissToast, updateToast } from './utils/toast';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -35,24 +36,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }, [token]);
 
     const handleLogin = async (email: string, password: string) => {
+        const toastId = showLoadingToast('Logging in...');
         try {
             const response = await login(email, password);
             localStorage.setItem('token', response.token);
             setToken(response.token);
+            updateToast(toastId, 'success', 'Logged in successfully!');
             navigate('/dashboard');
         } catch (error) {
-            console.error('Login failed:', error);
-            throw error;
+            const errorMessage = error instanceof Error ? error.message : 'Login failed';
+            updateToast(toastId, 'error', errorMessage);
+            throw error; // Re-throw to allow components to handle if needed
         }
     };
 
     const handleRegister = async (userData: RegisterFormData) => {
+        const toastId = showLoadingToast('Registering account...');
         try {
             await register(userData);
+            updateToast(toastId, 'success', 'Account created successfully! Please log in.');
             navigate('/login');
         } catch (error) {
-            console.error('Registration failed:', error);
-            throw error;
+            const errorMessage = error instanceof Error ? error.message : 'Registration failed';
+            updateToast(toastId, 'error', errorMessage);
+            throw error; // Re-throw to allow components to handle if needed
         }
     };
 
@@ -60,6 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);
+        showSuccessToast('Logged out successfully!');
         navigate('/login');
     };
 
