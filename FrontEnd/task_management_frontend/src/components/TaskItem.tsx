@@ -5,7 +5,7 @@ import { Task, TaskStatus } from '../types/Task';
 
 interface TaskItemProps {
   task: Task;
-  onStatusChange: (taskId: number, newStatus: TaskStatus) => void;
+  onStatusChange: (taskId: number, task: Task) => void;
 }
 
 const statusOptions: Record<TaskStatus, string> = {
@@ -79,7 +79,7 @@ const TaskItem = ({ task, onStatusChange }: TaskItemProps) => {
                     <Menu.Item key={status}>
                       {({ active }) => (
                         <button
-                          onClick={() => onStatusChange(task.id, status)}
+                          onClick={() => onStatusChange(task.id, {...task, status:status} )}
                           className={`${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'} block px-4 py-2 text-sm w-full text-left`}
                         >
                           {statusOptions[status]}

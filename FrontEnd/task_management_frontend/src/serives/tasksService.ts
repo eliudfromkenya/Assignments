@@ -35,6 +35,25 @@ export const createTask = async (taskData: Omit<Task, 'id' | 'createdAt' | 'upda
   return response.json();
 };
 
+export const updateTask = async (taskData: Task): Promise<Task> => {
+  const response = await fetch(`${API_URL}/tasks`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify(taskData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to create task');
+  }
+
+  return response.json();
+};
+
+
 export const getUsers = async (): Promise<User[]> => {
   const response = await fetch(`${API_URL}/users`, {
     headers: {

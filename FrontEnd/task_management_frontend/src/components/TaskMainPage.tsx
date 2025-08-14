@@ -6,7 +6,7 @@ import { useAuth } from '../AuthenticationContext';
 import { User } from '../types/User';
 import { Task, TaskPriority, TaskStatus } from '../types/Task';
 
-const TaskBoard = () => {
+const TaskMainPage = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
@@ -55,9 +55,9 @@ const TaskBoard = () => {
         }
     };
 
-    const handleStatusChange = async (taskId: number, newStatus: TaskStatus) => {
+    const handleStatusChange = async (taskId: number, task: Task) => {
         try {
-            const updatedTask = await updateTask(taskId, { status: newStatus });
+            const updatedTask = await updateTask({ ...task, id: taskId });
             setTasks(tasks.map(task =>
                 task.id === taskId ? updatedTask : task
             ));
@@ -140,4 +140,4 @@ const TaskBoard = () => {
     );
 };
 
-export default TaskBoard;
+export default TaskMainPage;
