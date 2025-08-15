@@ -34,7 +34,7 @@ public class TaskService : ITaskService
         {
             query = query.Where(t => t.AssigneeId == assigneeId);
         }
-        var ans = await query.ToListAsync(); 
+        var ans = query.ToList(); 
         return ans.Select(c => (TaskManagementAPI.Models.Task)c);
     }
 
@@ -93,7 +93,7 @@ public class TaskService : ITaskService
 
     public async Task<IEnumerable<IUser>> GetUsers()
     {
-        var ans =  await _context.Users.ToListAsync();
+        var ans =  _context.Users.ToList();
         return ans.Select(u => (User)u);
     }
 }

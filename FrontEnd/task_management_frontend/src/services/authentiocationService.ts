@@ -1,6 +1,6 @@
 import { RegisterFormData } from "../types/RegistrationFormData";
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://localhost:7195/api';
 
 export interface AuthResponse {
     token: string;
@@ -24,12 +24,14 @@ export const login = async (email: string, password: string): Promise<AuthRespon
     if(response.status === 401) 
         throw new Error('Invalid email or password');
     else if (!response.ok) {
-        console.log(response);
         const error = await response.json();
         throw new Error(error.message || 'Login failed');
     }
+    const re = await response.json();
 
-    return response.json();
+    localStorage.setItem('token', re.token);
+
+    return re;
 };
 
 export const register = async (userData: RegisterFormData): Promise<void> => {

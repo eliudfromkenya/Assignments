@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../types/User';
-import { getAllUsers, updateUserRole, deleteUser } from '../serives/userService';
+import { getAllUsers, updateUserRole, deleteUser } from '../services/userService';
 import { showSuccessToast, showErrorToast, showLoadingToast, updateToast } from '../utils/toast';
 import Modal from './Modal';
 import DeleteConfirmation from './DeleteConfirmation';

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { getTasks, createTask, updateTask, deleteTask, getUsers } from '../serives/tasksService';
+import { getTasks, createTask, updateTask, deleteTask, getUsers } from '../services/tasksService';
 import TaskForm from './TaskForm';
 import { useAuth } from '../AuthenticationContext';
 import { User } from '../types/User';

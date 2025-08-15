@@ -1,8 +1,7 @@
 import { Task } from "../types/Task";
 import { User } from "../types/User";
 
-const API_URL = 'http://localhost:5000/api';
-
+const API_URL = 'https://localhost:7195/api';
 export const getTasks = async (): Promise<Task[]> => {
   const response = await fetch(`${API_URL}/tasks`, {
     headers: {
@@ -18,6 +17,8 @@ export const getTasks = async (): Promise<Task[]> => {
 };
 
 export const createTask = async (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'creator' | 'assignee'>): Promise<Task> => {
+  console.log('Creating task with data:', taskData,`Bearer ${localStorage.getItem('token')}`);
+
   const response = await fetch(`${API_URL}/tasks`, {
     method: 'POST',
     headers: {

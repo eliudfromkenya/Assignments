@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContextType } from './types/AuthContextType';
 import { User } from './types/User';
 import { RegisterFormData } from './types/RegistrationFormData';
-import { login, register } from './serives/authentiocationService';
+import { login, register } from './services/authentiocationService';
 import { showSuccessToast, showErrorToast, showLoadingToast, dismissToast, updateToast } from './utils/toast';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

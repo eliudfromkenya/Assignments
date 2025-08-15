@@ -102,7 +102,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel, users, initialT
               onChange={(selectedPriority: TaskPriority) => setFieldValue('priority', selectedPriority)}
             >
               {({ open }) => (
-                <>
+                <div>
                   <Listbox.Label id="priority-label" className="block text-sm font-medium text-gray-700">Priority</Listbox.Label>
                   <div className="relative mt-1">
                     <Listbox.Button
@@ -153,7 +153,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel, users, initialT
                       </Listbox.Options>
                     </Transition>
                   </div>
-                </>
+                </div>
               )}
             </Listbox>
             <ErrorMessage name="priority" component="div" id="priority-error" className="mt-1 text-sm text-red-600" />
@@ -165,7 +165,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel, users, initialT
               onChange={(selectedAssigneeId: number | undefined) => setFieldValue('assigneeId', selectedAssigneeId)}
             >
               {({ open }) => (
-                <>
+                <div>
                   <Listbox.Label id="assignee-label" className="block text-sm font-medium text-gray-700">Assignee</Listbox.Label>
                   <div className="relative mt-1">
                     <Listbox.Button
@@ -243,7 +243,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, onCancel, users, initialT
                       </Listbox.Options>
                     </Transition>
                   </div>
-                </>
+                </div >
               )}
             </Listbox>
             <ErrorMessage name="assigneeId" component="div" id="assigneeId-error" className="mt-1 text-sm text-red-600" />

@@ -44,18 +44,18 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+
+app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-               // .AllowCredentials());
 
 // Configure the HTTP request pipeline
 app.UseHttpsRedirection();
@@ -65,9 +65,11 @@ app.UseAuthorization();
 // Log every HTTP request to the console
 app.Use(async (context, next) =>
 {
-    Console.WriteLine($"[{DateTime.UtcNow}] {context.Request.Method} {context.Request.Path}");
+    Console.WriteLine($"API Call: [{DateTime.UtcNow}] {context.Request.Method} {context.Request.Path}");
     await next.Invoke();
 });
+
+
 
 // Map endpoints
 app.MapAuthEndpoints();
