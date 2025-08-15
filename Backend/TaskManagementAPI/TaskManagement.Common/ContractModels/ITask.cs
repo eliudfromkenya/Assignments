@@ -6,9 +6,9 @@ public interface ITask
     int? AssigneeId { get; set; }
     DateTime CreatedAt { get; set; }
     IUser? Creator { get; set; }
-    int CreatorId { get; set; }
+    int? CreatorId { get; set; }
     string Description { get; set; }
-    int Id { get; set; }
+    int? Id { get; set; }
     string Priority { get; set; }
     string Status { get; set; }
     string Title { get; set; }

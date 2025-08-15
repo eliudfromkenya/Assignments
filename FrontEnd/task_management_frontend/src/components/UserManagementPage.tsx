@@ -7,8 +7,8 @@ import DeleteConfirmation from './DeleteConfirmation';
 import { Edit, Trash2, User as UserIcon, ShieldCheck } from 'lucide-react';
 import { Listbox, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
-import { useAuth } from '../AuthenticationContext';
+import { Check, ChevronDown } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth';
 
 const UserManagementPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);

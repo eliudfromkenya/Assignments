@@ -1,7 +1,7 @@
 import { JSX, useState } from "react";
 import { Menu, X, LogOut, User as UserIcon, LayoutDashboard, Home as HomeIcon, LogIn, UserPlus, Users as UsersIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../AuthenticationContext";
+import { useAuth } from "../hooks/useAuth"; // Updated import path
 
 export default function Navbar(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);

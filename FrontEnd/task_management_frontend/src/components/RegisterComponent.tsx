@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../AuthenticationContext';
+import { useAuth } from '../hooks/useAuth'; // Updated import path
 import { RegisterFormData } from '../types/RegistrationFormData';
 import { registerSchema } from '../validationSchemas/registerSchema';
 

@@ -2,11 +2,11 @@
 namespace TaskManagementAPI.DTOs;
 
 public readonly record struct CreateTaskRequest(
-    string Title,
+    string? Title,
     string? Description,
-    string Priority,
+    string? Priority,
     int? AssigneeId,
-    int CreatorId
+    int? CreatorId
 ) : ICreateTaskRequest
 {
     public bool Equals(ICreateTaskRequest? other)

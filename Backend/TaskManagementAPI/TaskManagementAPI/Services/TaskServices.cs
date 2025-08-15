@@ -62,7 +62,7 @@ public class TaskService : ITaskService
 
         _context.Tasks.Add(task);
         await _context.SaveChangesAsync();
-        return await GetTaskById(task.Id);
+        return await GetTaskById(task.Id ?? 0);
     }
 
     public async Task<ITask> UpdateTask(int id, IUpdateTaskRequest request)
@@ -78,7 +78,7 @@ public class TaskService : ITaskService
         task.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
-        return await GetTaskById(task.Id);
+        return await GetTaskById(task.Id ?? 0);
     }
 
     public async Task<bool> DeleteTask(int id)
@@ -94,6 +94,6 @@ public class TaskService : ITaskService
     public async Task<IEnumerable<IUser>> GetUsers()
     {
         var ans =  _context.Users.ToList();
-        return ans.Select(u => (User)u);
+        return await System.Threading.Tasks.Task.FromResult(ans.Select(u => (User)u));
     }
 }

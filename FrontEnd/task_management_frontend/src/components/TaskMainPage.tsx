@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getTasks, createTask, updateTask, deleteTask, getUsers } from '../services/tasksService';
 import TaskForm from './TaskForm';
-import { useAuth } from '../AuthenticationContext';
 import { User } from '../types/User';
 import { Task, TaskPriority, TaskStatus } from '../types/Task';
 import Modal from './Modal';
@@ -11,6 +10,7 @@ import TaskFilterControls from './TaskFilterControls';
 import TaskSortControls from './TaskSortControls';
 import TaskBoardColumn from './TaskBoardColumn'; // Import new component
 import TaskBoardHeader from './TaskBoardHeader'; // Import new component
+import { useAuth } from '../hooks/useAuth';
 
 const TaskMainPage = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -20,7 +20,7 @@ const TaskMainPage = () => {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-    
+
     // Filter states
     const [selectedAssigneeId, setSelectedAssigneeId] = useState<number | undefined>(undefined);
     const [selectedPriority, setSelectedPriority] = useState<TaskPriority | 'ALL'>('ALL');
