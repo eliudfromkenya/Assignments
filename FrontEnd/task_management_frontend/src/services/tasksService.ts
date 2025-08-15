@@ -1,5 +1,6 @@
 import { Task } from "../types/Task";
 import { User } from "../types/User";
+import { getResults } from "../utils/apiCalls";
 
 const API_URL = 'https://localhost:7195/api';
 export const getTasks = async (): Promise<Task[]> => {
@@ -9,16 +10,11 @@ export const getTasks = async (): Promise<Task[]> => {
     },
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch tasks');
-  }
-
-  return response.json();
+  return await getResults(response);
 };
 
 export const createTask = async (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'creator' | 'assignee'>): Promise<Task> => {
-  console.log('Creating task with data:', taskData,`Bearer ${localStorage.getItem('token')}`);
-
+  
   const response = await fetch(`${API_URL}/tasks`, {
     method: 'POST',
     headers: {
@@ -28,12 +24,7 @@ export const createTask = async (taskData: Omit<Task, 'id' | 'createdAt' | 'upda
     body: JSON.stringify(taskData),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to create task');
-  }
-
-  return response.json();
+  return await getResults(response);
 };
 
 export const updateTask = async (taskData: Task): Promise<Task> => {
@@ -46,15 +37,10 @@ export const updateTask = async (taskData: Task): Promise<Task> => {
     body: JSON.stringify(taskData),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to update task');
-  }
-
-  return response.json();
+  return await getResults(response);
 };
 
-export const deleteTask = async (taskId: number| undefined): Promise<void> => {
+export const deleteTask = async (taskId: number | undefined): Promise<void> => {
   const response = await fetch(`${API_URL}/tasks/${taskId}`, {
     method: 'DELETE',
     headers: {
@@ -62,10 +48,7 @@ export const deleteTask = async (taskId: number| undefined): Promise<void> => {
     },
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to delete task');
-  }
+  return await getResults(response);
 };
 
 
@@ -76,9 +59,5 @@ export const getUsers = async (): Promise<User[]> => {
     },
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch users');
-  }
-
-  return response.json();
+  return await getResults(response);
 };

@@ -1,4 +1,5 @@
 import { User } from "../types/User";
+import { getResults } from "../utils/apiCalls";
 
 const API_URL = 'https://localhost:7195/api';
 
@@ -9,12 +10,7 @@ export const getAllUsers = async (): Promise<User[]> => {
     },
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch users');
-  }
-
-  return response.json();
+  return await getResults(response);
 };
 
 export const updateUserRole = async (userId: number, newRole: 'USER' | 'ADMIN'): Promise<User> => {
@@ -27,12 +23,7 @@ export const updateUserRole = async (userId: number, newRole: 'USER' | 'ADMIN'):
     body: JSON.stringify({ role: newRole }),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to update user role');
-  }
-
-  return response.json();
+  return await getResults(response);
 };
 
 export const deleteUser = async (userId: number): Promise<void> => {
@@ -43,8 +34,5 @@ export const deleteUser = async (userId: number): Promise<void> => {
     },
   });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to delete user');
-  }
+ return await getResults(response);
 };

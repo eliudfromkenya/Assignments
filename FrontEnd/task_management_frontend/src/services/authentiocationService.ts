@@ -1,4 +1,5 @@
 import { RegisterFormData } from "../types/RegistrationFormData";
+import { getResults } from "../utils/apiCalls";
 
 const API_URL = 'https://localhost:7195/api';
 
@@ -12,6 +13,7 @@ export interface AuthResponse {
 }
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
+    localStorage.removeItem('token');
     const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -21,7 +23,7 @@ export const login = async (email: string, password: string): Promise<AuthRespon
         body: JSON.stringify({ email, password }),
     });
 
-    if(response.status === 401) 
+    if (response.status === 401)
         throw new Error('Invalid email or password');
     else if (!response.ok) {
         const error = await response.json();
@@ -42,15 +44,9 @@ export const register = async (userData: RegisterFormData): Promise<void> => {
         },
         body: JSON.stringify(userData),
     });
-
-    if (!response.ok) {
-        const error = await response.json();
-        console.log(error);
-        throw new Error(error.message || 'Registration failed');
-    }
+    return await getResults(response);
 };
 
 export const logout = async (): Promise<void> => {
-
     localStorage.removeItem('token');
 };
